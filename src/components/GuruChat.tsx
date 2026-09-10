@@ -22,7 +22,9 @@ export function GuruChat() {
   const greeting = t.greeting(fn, sign.name, nak, profile?.pob ?? "");
 
   const [messages, setMessages] = useState<Msg[]>(
-    chatHistory.length ? chatHistory : [{ id: 1, role: "guru", text: greeting }],
+    chatHistory.length
+      ? chatHistory
+      : [{ id: 1, role: "guru", text: greeting }],
   );
   const [input, setInput] = useState("");
   const [typing, setTyping] = useState(false);
@@ -33,7 +35,10 @@ export function GuruChat() {
   );
 
   useEffect(() => {
-    scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
+    scrollRef.current?.scrollTo({
+      top: scrollRef.current.scrollHeight,
+      behavior: "smooth",
+    });
   }, [messages, typing]);
 
   // Persist chat history whenever messages settle (not mid-typing).
@@ -48,7 +53,9 @@ export function GuruChat() {
     if (langRef.current === language) return;
     langRef.current = language;
     setMessages((m) =>
-      m.length <= 1 ? [{ id: 1, role: "guru", text: greeting }] : [...m, { id: idRef.current++, role: "guru", text: greeting }],
+      m.length <= 1
+        ? [{ id: 1, role: "guru", text: greeting }]
+        : [...m, { id: idRef.current++, role: "guru", text: greeting }],
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [language]);
@@ -65,7 +72,10 @@ export function GuruChat() {
     setTyping(true);
     setTimeout(() => {
       setTyping(false);
-      setMessages((m) => [...m, { id: idRef.current++, role: "guru", text: r }]);
+      setMessages((m) => [
+        ...m,
+        { id: idRef.current++, role: "guru", text: r },
+      ]);
     }, 1300);
   };
 
@@ -86,9 +96,12 @@ export function GuruChat() {
           <span className="absolute -bottom-0.5 -right-0.5 h-3.5 w-3.5 rounded-full border-2 border-surface bg-emerald-400" />
         </div>
         <div className="min-w-0 flex-1">
-          <h1 className="truncate font-display text-lg font-bold text-foreground">Guru Ji</h1>
+          <h1 className="truncate font-display text-lg font-bold text-foreground">
+            Guru Ji
+          </h1>
           <p className="flex items-center gap-1.5 text-xs text-emerald-400">
-            <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" /> Online · AI Master Astrologer
+            <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" /> Online
+            · AI Master Astrologer
           </p>
         </div>
         <button
@@ -107,7 +120,9 @@ export function GuruChat() {
           className="flex w-full items-center gap-2 px-4 py-2.5 text-sm font-semibold text-gold"
         >
           <ScrollText className="h-4 w-4" /> {t.chartTitle}
-          <ChevronDown className={`ms-auto h-4 w-4 transition ${showChart ? "rotate-180" : ""}`} />
+          <ChevronDown
+            className={`ms-auto h-4 w-4 transition ${showChart ? "rotate-180" : ""}`}
+          />
         </button>
         {showChart && (
           <div className="px-4 pb-4">
@@ -117,7 +132,10 @@ export function GuruChat() {
       </div>
 
       {/* Messages */}
-      <div ref={scrollRef} className="no-scrollbar flex-1 space-y-3 overflow-y-auto px-4 py-4">
+      <div
+        ref={scrollRef}
+        className="no-scrollbar flex-1 space-y-3 overflow-y-auto px-4 py-4"
+      >
         {messages.map((m) => (
           <Bubble key={m.id} msg={m} />
         ))}
@@ -185,10 +203,93 @@ function Bubble({ msg }: { msg: Msg }) {
 }
 
 const KEYWORDS = {
-  career: ["career", "wealth", "money", "job", "करियर", "धन", "नौकरी", "कर्म", "কর্ম", "সম্পদ", "தொழில்", "செல்வம்", "వృత్తి", "సంపద", "करिअर", "કારકિર્દી", "ವೃತ್ತಿ", "കരിയർ", "ਕਰੀਅਰ", "کیریئر", "دولت", "କ୍ୟାରିଅର"],
-  love: ["marriage", "love", "relationship", "partner", "विवाह", "प्रेम", "प्यार", "বিবাহ", "প্রেম", "திருமணம்", "காதல்", "వివాహం", "ప్రేమ", "લગ્ન", "ವಿವಾಹ", "ಪ್ರೇಮ", "വിവാഹം", "പ്രണയം", "ਵਿਆਹ", "ਪਿਆਰ", "شادی", "محبت", "ବିବାହ"],
-  health: ["health", "body", "wellness", "स्वास्थ्य", "आरोग्य", "সুস্থ", "স্বাস্থ্য", "உடல்நலம்", "ఆరోగ్య", "આરોગ્ય", "ಆರೋಗ್ಯ", "ആരോഗ്യ", "ਸਿਹਤ", "صحت", "ସ୍ୱାସ୍ଥ୍ୟ"],
-  saturn: ["sade sati", "saturn", "shani", "साढ़े साती", "साडेसाती", "शनि", "সাড়ে সাতি", "শনি", "சடே சதி", "சனி", "సాడే సతి", "శని", "સાડાસાતી", "ಸಾಡೇ ಸತಿ", "സാഡേ സതി", "ਸਾਢੇ ਸਾਤੀ", "ساڑھے ساتی", "ساڑھے", "ସାଢେ ସାତି"],
+  career: [
+    "career",
+    "wealth",
+    "money",
+    "job",
+    "करियर",
+    "धन",
+    "नौकरी",
+    "कर्म",
+    "কর্ম",
+    "সম্পদ",
+    "தொழில்",
+    "செல்வம்",
+    "వృత్తి",
+    "సంపద",
+    "करिअर",
+    "કારકિર્દી",
+    "ವೃತ್ತಿ",
+    "കരിയർ",
+    "ਕਰੀਅਰ",
+    "کیریئر",
+    "دولت",
+    "କ୍ୟାରିଅର",
+  ],
+  love: [
+    "marriage",
+    "love",
+    "relationship",
+    "partner",
+    "विवाह",
+    "प्रेम",
+    "प्यार",
+    "বিবাহ",
+    "প্রেম",
+    "திருமணம்",
+    "காதல்",
+    "వివాహం",
+    "ప్రేమ",
+    "લગ્ન",
+    "ವಿವಾಹ",
+    "ಪ್ರೇಮ",
+    "വിവാഹം",
+    "പ്രണയം",
+    "ਵਿਆਹ",
+    "ਪਿਆਰ",
+    "شادی",
+    "محبت",
+    "ବିବାହ",
+  ],
+  health: [
+    "health",
+    "body",
+    "wellness",
+    "स्वास्थ्य",
+    "आरोग्य",
+    "সুস্থ",
+    "স্বাস্থ্য",
+    "உடல்நலம்",
+    "ఆరోగ్య",
+    "આરોગ્ય",
+    "ಆರೋಗ್ಯ",
+    "ആരോഗ്യ",
+    "ਸਿਹਤ",
+    "صحت",
+    "ସ୍ୱାସ୍ଥ୍ୟ",
+  ],
+  saturn: [
+    "sade sati",
+    "saturn",
+    "shani",
+    "साढ़े साती",
+    "साडेसाती",
+    "शनि",
+    "সাড়ে সাতি",
+    "শনি",
+    "சடே சதி",
+    "சனி",
+    "సాడే సతి",
+    "శని",
+    "સાડાસાતી",
+    "ಸಾಡೇ ಸತಿ",
+    "സാഡേ സതി",
+    "ਸਾਢੇ ਸਾਤੀ",
+    "ساڑھے ساتی",
+    "ساڑھے",
+    "ସାଢେ ସାତି",
+  ],
 };
 
 function match(q: string, list: string[]) {
@@ -197,7 +298,12 @@ function match(q: string, list: string[]) {
 
 function generateReply(
   q: string,
-  ctx: { fn: string; sign: { name: string; ruler: string }; nak: string; language: string },
+  ctx: {
+    fn: string;
+    sign: { name: string; ruler: string };
+    nak: string;
+    language: string;
+  },
 ) {
   const ql = q.toLowerCase();
   const { fn, sign, nak, language } = ctx;

@@ -14,8 +14,11 @@ import {
 } from "lucide-react";
 import { CosmicBackground } from "./CosmicBackground";
 import { useAstro, type AstroProfile } from "@/lib/astro-context";
-import { analyzeImageFile, faceReading, palmReading } from "@/lib/image-analysis";
-
+import {
+  analyzeImageFile,
+  faceReading,
+  palmReading,
+} from "@/lib/image-analysis";
 
 const TOTAL = 6;
 
@@ -35,11 +38,18 @@ export function Onboarding({
   const [dob, setDob] = useState(initial?.dob ?? "");
   const [tob, setTob] = useState(initial?.tob ?? "");
   const [pob, setPob] = useState(initial?.pob ?? "");
-  const [facePhoto, setFacePhoto] = useState<string | null>(initial?.facePhoto ?? null);
-  const [palmPhoto, setPalmPhoto] = useState<string | null>(initial?.palmPhoto ?? null);
-  const [faceText, setFaceText] = useState<string | null>(initial?.faceReading ?? null);
-  const [palmText, setPalmText] = useState<string | null>(initial?.palmReading ?? null);
-
+  const [facePhoto, setFacePhoto] = useState<string | null>(
+    initial?.facePhoto ?? null,
+  );
+  const [palmPhoto, setPalmPhoto] = useState<string | null>(
+    initial?.palmPhoto ?? null,
+  );
+  const [faceText, setFaceText] = useState<string | null>(
+    initial?.faceReading ?? null,
+  );
+  const [palmText, setPalmText] = useState<string | null>(
+    initial?.palmReading ?? null,
+  );
 
   const canNext = () => {
     if (step === 0) return name.trim().length > 1;
@@ -67,8 +77,6 @@ export function Onboarding({
     onCancel?.();
   };
 
-
-
   return (
     <div className="relative flex min-h-dvh flex-col overflow-hidden px-6 pb-10 pt-8">
       <CosmicBackground />
@@ -77,7 +85,9 @@ export function Onboarding({
       <div className="relative z-10">
         {onCancel && (
           <div className="mb-3 flex items-center justify-between">
-            <h1 className="font-display text-lg font-bold text-gold-gradient">Edit Details</h1>
+            <h1 className="font-display text-lg font-bold text-gold-gradient">
+              Edit Details
+            </h1>
             <button
               onClick={onCancel}
               aria-label="Cancel editing"
@@ -112,17 +122,32 @@ export function Onboarding({
         </div>
       </div>
 
-
       {/* Step content */}
-      <div key={step} className="relative z-10 flex flex-1 flex-col justify-center animate-[fade-in_0.4s_ease-out]">
+      <div
+        key={step}
+        className="relative z-10 flex flex-1 flex-col justify-center animate-[fade-in_0.4s_ease-out]"
+      >
         {step === 0 && (
-          <StepShell icon={<User />} title="What's your name?" subtitle="So Guru Ji knows who he's guiding.">
-            <FloatingInput label="Full Name" value={name} onChange={setName} autoFocus />
+          <StepShell
+            icon={<User />}
+            title="What's your name?"
+            subtitle="So Guru Ji knows who he's guiding."
+          >
+            <FloatingInput
+              label="Full Name"
+              value={name}
+              onChange={setName}
+              autoFocus
+            />
           </StepShell>
         )}
 
         {step === 1 && (
-          <StepShell icon={<Calendar />} title="Date of Birth" subtitle="Your cosmic blueprint begins here.">
+          <StepShell
+            icon={<Calendar />}
+            title="Date of Birth"
+            subtitle="Your cosmic blueprint begins here."
+          >
             <NativeField icon={<Calendar className="h-5 w-5 text-gold" />}>
               <input
                 type="date"
@@ -136,7 +161,11 @@ export function Onboarding({
         )}
 
         {step === 2 && (
-          <StepShell icon={<Clock />} title="Time of Birth" subtitle="Exact time refines your planetary houses.">
+          <StepShell
+            icon={<Clock />}
+            title="Time of Birth"
+            subtitle="Exact time refines your planetary houses."
+          >
             <NativeField icon={<Clock className="h-5 w-5 text-gold" />}>
               <input
                 type="time"
@@ -149,13 +178,26 @@ export function Onboarding({
         )}
 
         {step === 3 && (
-          <StepShell icon={<MapPin />} title="Place of Birth" subtitle="City, State, Country">
-            <FloatingInput label="e.g. Varanasi, UP, India" value={pob} onChange={setPob} autoFocus />
+          <StepShell
+            icon={<MapPin />}
+            title="Place of Birth"
+            subtitle="City, State, Country"
+          >
+            <FloatingInput
+              label="e.g. Varanasi, UP, India"
+              value={pob}
+              onChange={setPob}
+              autoFocus
+            />
           </StepShell>
         )}
 
         {step === 4 && (
-          <StepShell icon={<Camera />} title="Face Reading" subtitle="Upload Face Photo for Face Reading">
+          <StepShell
+            icon={<Camera />}
+            title="Face Reading"
+            subtitle="Upload Face Photo for Face Reading"
+          >
             <UploadArea
               icon={<Camera className="h-8 w-8" />}
               label="Upload Face Photo"
@@ -172,7 +214,11 @@ export function Onboarding({
         )}
 
         {step === 5 && (
-          <StepShell icon={<Hand />} title="Palmistry" subtitle="Upload Palm Photo for Hast Rekha Analysis">
+          <StepShell
+            icon={<Hand />}
+            title="Palmistry"
+            subtitle="Upload Palm Photo for Hast Rekha Analysis"
+          >
             <UploadArea
               icon={<Hand className="h-8 w-8" />}
               label="Upload Palm Photo"
@@ -187,7 +233,6 @@ export function Onboarding({
             />
           </StepShell>
         )}
-
       </div>
 
       {/* Footer action */}
@@ -206,11 +251,16 @@ export function Onboarding({
             className="flex h-14 w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-saffron to-gold text-base font-bold text-[#1a1206] shadow-lg transition active:scale-[0.98]"
           >
             <Sparkles className="h-5 w-5" />
-            {submitLabel ?? (onCancel ? "Save & Recompute Charts" : "Submit & Generate Charts")}
+            {submitLabel ??
+              (onCancel
+                ? "Save & Recompute Charts"
+                : "Submit & Generate Charts")}
           </button>
         )}
         {step >= 4 && (
-          <p className="mt-3 text-center text-xs text-muted-foreground/70">Photo upload is optional — you can skip.</p>
+          <p className="mt-3 text-center text-xs text-muted-foreground/70">
+            Photo upload is optional — you can skip.
+          </p>
         )}
       </div>
     </div>
@@ -233,7 +283,9 @@ function StepShell({
       <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-saffron/15 text-gold [&>svg]:h-7 [&>svg]:w-7">
         {icon}
       </div>
-      <h2 className="font-display text-3xl font-bold text-foreground">{title}</h2>
+      <h2 className="font-display text-3xl font-bold text-foreground">
+        {title}
+      </h2>
       <p className="mb-8 mt-2 text-sm text-muted-foreground">{subtitle}</p>
       {children}
     </div>
@@ -266,7 +318,9 @@ function FloatingInput({
       />
       <label
         className={`pointer-events-none absolute left-4 transition-all ${
-          active ? "top-2.5 text-xs text-gold" : "top-1/2 -translate-y-1/2 text-base text-muted-foreground"
+          active
+            ? "top-2.5 text-xs text-gold"
+            : "top-1/2 -translate-y-1/2 text-base text-muted-foreground"
         }`}
       >
         {label}
@@ -275,7 +329,13 @@ function FloatingInput({
   );
 }
 
-function NativeField({ icon, children }: { icon: React.ReactNode; children: React.ReactNode }) {
+function NativeField({
+  icon,
+  children,
+}: {
+  icon: React.ReactNode;
+  children: React.ReactNode;
+}) {
   return (
     <div className="flex items-center gap-3 rounded-2xl border border-input bg-surface px-4 focus-within:border-gold">
       {icon}
@@ -299,7 +359,10 @@ function UploadArea({
   captureMode: "user" | "environment";
   photo: string | null;
   reading: string | null;
-  onResult: (dataUrl: string, metrics: import("@/lib/image-analysis").ImageMetrics) => void;
+  onResult: (
+    dataUrl: string,
+    metrics: import("@/lib/image-analysis").ImageMetrics,
+  ) => void;
 }) {
   const cameraRef = useRef<HTMLInputElement>(null);
   const galleryRef = useRef<HTMLInputElement>(null);
@@ -335,21 +398,35 @@ function UploadArea({
         className="hidden"
         onChange={pick}
       />
-      <input ref={galleryRef} type="file" accept="image/*" className="hidden" onChange={pick} />
+      <input
+        ref={galleryRef}
+        type="file"
+        accept="image/*"
+        className="hidden"
+        onChange={pick}
+      />
 
       <div className="relative flex h-52 w-full flex-col items-center justify-center gap-3 overflow-hidden rounded-3xl border-2 border-dashed border-gold/40 bg-surface text-gold">
         {analyzing ? (
           <div className="flex flex-col items-center gap-4 px-6 text-center">
             <span className="h-12 w-12 animate-spin rounded-full border-4 border-gold/20 border-t-gold" />
-            <p className="text-sm font-medium text-foreground">{analyzingText}</p>
+            <p className="text-sm font-medium text-foreground">
+              {analyzingText}
+            </p>
           </div>
         ) : photo ? (
           <img src={photo} alt={label} className="h-full w-full object-cover" />
         ) : (
           <>
-            <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-saffron/15">{icon}</div>
-            <span className="text-base font-semibold text-foreground">{label}</span>
-            <span className="text-xs text-muted-foreground">Take a photo or choose from your gallery</span>
+            <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-saffron/15">
+              {icon}
+            </div>
+            <span className="text-base font-semibold text-foreground">
+              {label}
+            </span>
+            <span className="text-xs text-muted-foreground">
+              Take a photo or choose from your gallery
+            </span>
           </>
         )}
         {!analyzing && photo && (
@@ -376,15 +453,18 @@ function UploadArea({
         </button>
       </div>
 
-      {error && <p className="mt-2 text-center text-xs text-destructive">{error}</p>}
+      {error && (
+        <p className="mt-2 text-center text-xs text-destructive">{error}</p>
+      )}
 
       {!analyzing && reading && (
         <div className="mt-3 rounded-2xl border border-gold/25 bg-surface-2 p-3">
-          <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-gold">Analysis Result</p>
+          <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-gold">
+            Analysis Result
+          </p>
           <p className="text-sm leading-relaxed text-foreground">{reading}</p>
         </div>
       )}
     </div>
   );
 }
-

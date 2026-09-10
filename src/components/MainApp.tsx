@@ -40,7 +40,9 @@ export function MainApp() {
               >
                 <Icon className="h-5 w-5" strokeWidth={active ? 2.4 : 1.8} />
               </span>
-              <span className={`text-[11px] font-medium ${active ? "text-gold" : "text-muted-foreground"}`}>
+              <span
+                className={`text-[11px] font-medium ${active ? "text-gold" : "text-muted-foreground"}`}
+              >
                 {t.label}
               </span>
             </button>
