@@ -1,11 +1,29 @@
 import { useState } from "react";
-import { Calendar, Clock, FileDown, MapPin, MessageSquareText, Pencil, RefreshCw, Sparkles, Star, User } from "lucide-react";
+import {
+  Calendar,
+  Clock,
+  FileDown,
+  MapPin,
+  MessageSquareText,
+  Pencil,
+  RefreshCw,
+  Sparkles,
+  Star,
+  User,
+} from "lucide-react";
 import { jsPDF } from "jspdf";
 import { useAstro } from "@/lib/astro-context";
 import { Onboarding } from "./Onboarding";
-import { birthChart, firstName, getSign, nakshatra, signForHouse } from "@/lib/astro-utils";
+import {
+  birthChart,
+  firstName,
+  getSign,
+  nakshatra,
+  signForHouse,
+} from "@/lib/astro-utils";
 
-const clean = (t: string) => t.replace(/[\u{1F000}-\u{1FFFF}\u2600-\u27BF\uFE0F]/gu, "").trim();
+const clean = (t: string) =>
+  t.replace(/[\u{1F000}-\u{1FFFF}\u2600-\u27BF\uFE0F]/gu, "").trim();
 
 function savePdf(doc: jsPDF, filename: string) {
   try {
@@ -38,8 +56,13 @@ export function ProfileView() {
   const sign = getSign(profile.dob);
   const nak = nakshatra(profile);
 
-  const fmtDate = profile.dob ? new Date(profile.dob).toLocaleDateString(undefined, { day: "numeric", month: "long", year: "numeric" }) : "—";
-
+  const fmtDate = profile.dob
+    ? new Date(profile.dob).toLocaleDateString(undefined, {
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+      })
+    : "—";
 
   const exportPdf = () => {
     setExporting(true);
@@ -65,7 +88,10 @@ export function ProfileView() {
         doc.text("Personalized Vedic Astrology Report", M, 72);
 
         const heading = (t: string) => {
-          if (y > 760) { doc.addPage(); y = 64; }
+          if (y > 760) {
+            doc.addPage();
+            y = 64;
+          }
           doc.setTextColor(...saffron);
           doc.setFont("helvetica", "bold");
           doc.setFontSize(14);
@@ -75,7 +101,10 @@ export function ProfileView() {
           y += 26;
         };
         const line = (label: string, value: string) => {
-          if (y > 780) { doc.addPage(); y = 64; }
+          if (y > 780) {
+            doc.addPage();
+            y = 64;
+          }
           doc.setTextColor(60, 60, 60);
           doc.setFont("helvetica", "bold");
           doc.setFontSize(11);
@@ -91,7 +120,10 @@ export function ProfileView() {
           doc.setTextColor(40, 40, 40);
           const wrapped = doc.splitTextToSize(t, W - M * 2);
           for (const ln of wrapped) {
-            if (y > 790) { doc.addPage(); y = 64; }
+            if (y > 790) {
+              doc.addPage();
+              y = 64;
+            }
             doc.text(ln, M, y);
             y += 16;
           }
@@ -106,26 +138,40 @@ export function ProfileView() {
         line("Place of Birth", profile.pob || "—");
         line("Sun Sign", `${sign.name} (${sign.element}, ${sign.ruler})`);
         line("Nakshatra", nak);
-        line("Face Reading", profile.facePhoto ? "Captured & analysed" : "Not provided");
-        line("Palmistry", profile.palmPhoto ? "Captured & analysed" : "Not provided");
+        line(
+          "Face Reading",
+          profile.facePhoto ? "Captured & analysed" : "Not provided",
+        );
+        line(
+          "Palmistry",
+          profile.palmPhoto ? "Captured & analysed" : "Not provided",
+        );
         y += 8;
 
         heading("Birth Chart Placements");
         const chart = birthChart(profile);
         para(`Lagna (Ascendant): ${chart.ascendant}`);
         chart.houses.forEach((h, i) => {
-          const planets = h.planets.map((p) => p.name).join(", ") || "No major planet";
-          line(`House ${i + 1} · ${signForHouse(chart.ascIndex, i + 1)}`, planets);
+          const planets =
+            h.planets.map((p) => p.name).join(", ") || "No major planet";
+          line(
+            `House ${i + 1} · ${signForHouse(chart.ascIndex, i + 1)}`,
+            planets,
+          );
         });
         y += 8;
 
         heading("Key Guru Ji Insights");
         const guruMsgs = chatHistory.filter((m) => m.role === "guru");
         if (guruMsgs.length <= 1) {
-          para("No conversation recorded yet. Chat with Guru Ji to populate personalized insights here.");
+          para(
+            "No conversation recorded yet. Chat with Guru Ji to populate personalized insights here.",
+          );
         } else {
           guruMsgs.slice(-6).forEach((m, i) => {
-            para(`${i + 1}. ${m.text.replace(/[\u{1F000}-\u{1FFFF}\u2600-\u27BF]/gu, "").trim()}`);
+            para(
+              `${i + 1}. ${m.text.replace(/[\u{1F000}-\u{1FFFF}\u2600-\u27BF]/gu, "").trim()}`,
+            );
           });
         }
 
@@ -178,7 +224,10 @@ export function ProfileView() {
         chatHistory.forEach((m) => {
           const isGuru = m.role === "guru";
           const label = isGuru ? "Guru Ji" : "You";
-          if (y > H - 80) { doc.addPage(); y = 64; }
+          if (y > H - 80) {
+            doc.addPage();
+            y = 64;
+          }
           doc.setFont("helvetica", "bold");
           doc.setFontSize(11);
           if (isGuru) doc.setTextColor(200, 110, 20);
@@ -189,9 +238,15 @@ export function ProfileView() {
           doc.setFont("helvetica", "normal");
           doc.setFontSize(11);
           doc.setTextColor(25, 25, 25);
-          const wrapped = doc.splitTextToSize(clean(m.text) || "—", W - M * 2 - 12);
+          const wrapped = doc.splitTextToSize(
+            clean(m.text) || "—",
+            W - M * 2 - 12,
+          );
           for (const ln of wrapped) {
-            if (y > H - 60) { doc.addPage(); y = 64; }
+            if (y > H - 60) {
+              doc.addPage();
+              y = 64;
+            }
             doc.text(ln, M + 12, y);
             y += 15;
           }
@@ -205,12 +260,14 @@ export function ProfileView() {
     }, 400);
   };
 
-
-
   return (
     <div className="h-full overflow-y-auto no-scrollbar px-4 pb-6 pt-5">
-      <h1 className="font-display text-2xl font-bold text-gold-gradient">Your Profile</h1>
-      <p className="mb-5 mt-1 text-sm text-muted-foreground">Saved birth details & cosmic charts.</p>
+      <h1 className="font-display text-2xl font-bold text-gold-gradient">
+        Your Profile
+      </h1>
+      <p className="mb-5 mt-1 text-sm text-muted-foreground">
+        Saved birth details & cosmic charts.
+      </p>
 
       {/* Hero card */}
       <div className="relative mb-5 overflow-hidden rounded-3xl border border-gold/30 bg-gradient-to-br from-surface to-surface-2 p-5">
@@ -220,8 +277,12 @@ export function ProfileView() {
             {firstName(profile.name).charAt(0)}
           </div>
           <div className="min-w-0">
-            <h2 className="truncate font-display text-xl font-bold text-foreground">{profile.name}</h2>
-            <p className="text-sm text-gold">{sign.name} · {nak} Nakshatra</p>
+            <h2 className="truncate font-display text-xl font-bold text-foreground">
+              {profile.name}
+            </h2>
+            <p className="text-sm text-gold">
+              {sign.name} · {nak} Nakshatra
+            </p>
           </div>
         </div>
         <div className="mt-4 flex items-center gap-2">
@@ -236,17 +297,34 @@ export function ProfileView() {
         </div>
       </div>
 
-
       {/* Details */}
       <div className="mb-5 space-y-3">
-        <DetailRow icon={<User className="h-5 w-5" />} label="Full Name" value={profile.name} />
-        <DetailRow icon={<Calendar className="h-5 w-5" />} label="Date of Birth" value={fmtDate} />
-        <DetailRow icon={<Clock className="h-5 w-5" />} label="Time of Birth" value={profile.tob || "—"} />
-        <DetailRow icon={<MapPin className="h-5 w-5" />} label="Place of Birth" value={profile.pob || "—"} />
+        <DetailRow
+          icon={<User className="h-5 w-5" />}
+          label="Full Name"
+          value={profile.name}
+        />
+        <DetailRow
+          icon={<Calendar className="h-5 w-5" />}
+          label="Date of Birth"
+          value={fmtDate}
+        />
+        <DetailRow
+          icon={<Clock className="h-5 w-5" />}
+          label="Time of Birth"
+          value={profile.tob || "—"}
+        />
+        <DetailRow
+          icon={<MapPin className="h-5 w-5" />}
+          label="Place of Birth"
+          value={profile.pob || "—"}
+        />
       </div>
 
       {/* Photos */}
-      <h3 className="mb-2 font-display text-base font-bold text-foreground">Uploaded Readings</h3>
+      <h3 className="mb-2 font-display text-base font-bold text-foreground">
+        Uploaded Readings
+      </h3>
       <div className="mb-6 grid grid-cols-2 gap-3">
         <PhotoCard label="Face Reading" photo={profile.facePhoto} />
         <PhotoCard label="Palm (Hast Rekha)" photo={profile.palmPhoto} />
@@ -286,11 +364,11 @@ export function ProfileView() {
         )}
       </button>
       {chatHistory.length === 0 && (
-        <p className="mb-3 text-center text-xs text-muted-foreground">Chat with Guru Ji first to enable transcript download.</p>
+        <p className="mb-3 text-center text-xs text-muted-foreground">
+          Chat with Guru Ji first to enable transcript download.
+        </p>
       )}
       {chatHistory.length > 0 && <div className="mb-3" />}
-
-
 
       {/* Reset */}
       {!confirm ? (
@@ -302,12 +380,20 @@ export function ProfileView() {
         </button>
       ) : (
         <div className="rounded-2xl border border-destructive/40 bg-destructive/10 p-4">
-          <p className="mb-3 text-sm text-foreground">This clears your profile and logs you out. Continue?</p>
+          <p className="mb-3 text-sm text-foreground">
+            This clears your profile and logs you out. Continue?
+          </p>
           <div className="flex gap-3">
-            <button onClick={() => setConfirm(false)} className="h-11 flex-1 rounded-xl bg-surface-2 font-semibold text-foreground">
+            <button
+              onClick={() => setConfirm(false)}
+              className="h-11 flex-1 rounded-xl bg-surface-2 font-semibold text-foreground"
+            >
               Cancel
             </button>
-            <button onClick={reset} className="h-11 flex-1 rounded-xl bg-destructive font-semibold text-destructive-foreground">
+            <button
+              onClick={reset}
+              className="h-11 flex-1 rounded-xl bg-destructive font-semibold text-destructive-foreground"
+            >
               Clear &amp; Restart
             </button>
           </div>
@@ -318,13 +404,27 @@ export function ProfileView() {
 }
 
 function Badge({ children }: { children: React.ReactNode }) {
-  return <span className="rounded-full bg-saffron/15 px-3 py-1 text-xs font-semibold text-gold">{children}</span>;
+  return (
+    <span className="rounded-full bg-saffron/15 px-3 py-1 text-xs font-semibold text-gold">
+      {children}
+    </span>
+  );
 }
 
-function DetailRow({ icon, label, value }: { icon: React.ReactNode; label: string; value: string }) {
+function DetailRow({
+  icon,
+  label,
+  value,
+}: {
+  icon: React.ReactNode;
+  label: string;
+  value: string;
+}) {
   return (
     <div className="flex items-center gap-3 rounded-2xl border border-border bg-surface px-4 py-3.5">
-      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-saffron/15 text-gold">{icon}</div>
+      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-saffron/15 text-gold">
+        {icon}
+      </div>
       <div className="min-w-0">
         <p className="text-xs text-muted-foreground">{label}</p>
         <p className="truncate font-medium text-foreground">{value}</p>
@@ -343,7 +443,9 @@ function PhotoCard({ label, photo }: { label: string; photo: string | null }) {
           <Sparkles className="h-8 w-8 text-muted-foreground/40" />
         )}
       </div>
-      <p className="px-3 py-2 text-center text-xs font-medium text-muted-foreground">{label}</p>
+      <p className="px-3 py-2 text-center text-xs font-medium text-muted-foreground">
+        {label}
+      </p>
     </div>
   );
 }

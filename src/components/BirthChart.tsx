@@ -52,8 +52,12 @@ export function BirthChart() {
     <div className="rounded-3xl border border-gold/30 bg-gradient-to-br from-surface to-surface-2 p-4">
       <div className="mb-3 flex items-center justify-between">
         <div>
-          <h2 className="font-display text-base font-bold text-gold-gradient">Your Birth Chart</h2>
-          <p className="text-xs text-muted-foreground">Lagna: {chart.ascendant} Ascendant</p>
+          <h2 className="font-display text-base font-bold text-gold-gradient">
+            Your Birth Chart
+          </h2>
+          <p className="text-xs text-muted-foreground">
+            Lagna: {chart.ascendant} Ascendant
+          </p>
         </div>
         <button
           onClick={download}
@@ -64,23 +68,42 @@ export function BirthChart() {
       </div>
 
       <div className="mx-auto w-full max-w-[320px]">
-        <svg ref={svgRef} viewBox={`0 0 ${S} ${S}`} className="h-auto w-full" xmlns="http://www.w3.org/2000/svg">
+        <svg
+          ref={svgRef}
+          viewBox={`0 0 ${S} ${S}`}
+          className="h-auto w-full"
+          xmlns="http://www.w3.org/2000/svg"
+        >
           <rect x="0" y="0" width={S} height={S} fill="#0B0C10" />
           <g stroke="#D4AF37" strokeWidth="1.4" fill="none" opacity="0.85">
             <rect x="2" y="2" width={S - 4} height={S - 4} />
             <line x1="2" y1="2" x2={S - 2} y2={S - 2} />
             <line x1={S - 2} y1="2" x2="2" y2={S - 2} />
-            <polygon points={`${S / 2},2 ${S - 2},${S / 2} ${S / 2},${S - 2} 2,${S / 2}`} />
+            <polygon
+              points={`${S / 2},2 ${S - 2},${S / 2} ${S / 2},${S - 2} 2,${S / 2}`}
+            />
           </g>
           {chart.houses.map((h, i) => {
             const [x, y] = POS[i];
             const sign = signForHouse(chart.ascIndex, i + 1);
             return (
               <g key={i} textAnchor="middle">
-                <text x={x} y={y - 6} fill="#FF9933" fontSize="9" fontWeight="700">
+                <text
+                  x={x}
+                  y={y - 6}
+                  fill="#FF9933"
+                  fontSize="9"
+                  fontWeight="700"
+                >
                   {sign.slice(0, 3)}
                 </text>
-                <text x={x} y={y + 9} fill="#F5EFE0" fontSize="11" fontWeight="600">
+                <text
+                  x={x}
+                  y={y + 9}
+                  fill="#F5EFE0"
+                  fontSize="11"
+                  fontWeight="600"
+                >
                   {h.planets.map((p) => p.key).join(" ") || "—"}
                 </text>
               </g>
@@ -89,7 +112,8 @@ export function BirthChart() {
         </svg>
       </div>
       <p className="mt-2 text-center text-[11px] text-muted-foreground">
-        North-Indian style · Su Sun · Mo Moon · Ma Mars · Me Mercury · Ju Jupiter · Ve Venus · Sa Saturn · Ra/Ke Nodes
+        North-Indian style · Su Sun · Mo Moon · Ma Mars · Me Mercury · Ju
+        Jupiter · Ve Venus · Sa Saturn · Ra/Ke Nodes
       </p>
     </div>
   );

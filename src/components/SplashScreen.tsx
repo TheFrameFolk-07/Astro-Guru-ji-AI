@@ -27,11 +27,15 @@ export function SplashScreen() {
           <Star className="absolute -bottom-2 left-0 h-4 w-4 text-saffron animate-twinkle" />
         </div>
 
-        <p className="mb-2 text-sm uppercase tracking-[0.4em] text-gold/80">Vedic · AI · Cosmos</p>
-        <h1 className="font-display text-5xl font-bold leading-tight text-gold-gradient">AstroAI</h1>
+        <p className="mb-2 text-sm uppercase tracking-[0.4em] text-gold/80">
+          Vedic · AI · Cosmos
+        </p>
+        <h1 className="font-display text-5xl font-bold leading-tight text-gold-gradient">
+          AstroAI
+        </h1>
         <p className="mt-4 max-w-xs text-base text-muted-foreground">
-          Welcome to AstroAI — your personal AI Master Astrologer. Unlock the secrets written in
-          your stars.
+          Welcome to AstroAI — your personal AI Master Astrologer. Unlock the
+          secrets written in your stars.
         </p>
       </div>
 
@@ -64,10 +68,22 @@ export function SplashScreen() {
 function GoogleIcon() {
   return (
     <svg className="h-5 w-5" viewBox="0 0 48 48">
-      <path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.4 29.3 35.5 24 35.5 17.6 35.5 12.5 30.4 12.5 24S17.6 12.5 24 12.5c3 0 5.7 1.1 7.8 3l5.7-5.7C33.9 6.5 29.2 4.5 24 4.5 13.2 4.5 4.5 13.2 4.5 24S13.2 43.5 24 43.5 43.5 34.8 43.5 24c0-1.2-.1-2.3-.4-3.5z" />
-      <path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12.5 24 12.5c3 0 5.7 1.1 7.8 3l5.7-5.7C33.9 6.5 29.2 4.5 24 4.5 16.3 4.5 9.7 8.9 6.3 14.7z" />
-      <path fill="#4CAF50" d="M24 43.5c5.2 0 9.9-2 13.4-5.2l-6.2-5.2c-2 1.5-4.6 2.4-7.2 2.4-5.3 0-9.7-3.1-11.3-7.5l-6.5 5C9.6 39 16.2 43.5 24 43.5z" />
-      <path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.1-4.1 5.6l6.2 5.2C41 35.6 43.5 30.3 43.5 24c0-1.2-.1-2.3-.4-3.5z" />
+      <path
+        fill="#FFC107"
+        d="M43.6 20.5H42V20H24v8h11.3C33.7 32.4 29.3 35.5 24 35.5 17.6 35.5 12.5 30.4 12.5 24S17.6 12.5 24 12.5c3 0 5.7 1.1 7.8 3l5.7-5.7C33.9 6.5 29.2 4.5 24 4.5 13.2 4.5 4.5 13.2 4.5 24S13.2 43.5 24 43.5 43.5 34.8 43.5 24c0-1.2-.1-2.3-.4-3.5z"
+      />
+      <path
+        fill="#FF3D00"
+        d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12.5 24 12.5c3 0 5.7 1.1 7.8 3l5.7-5.7C33.9 6.5 29.2 4.5 24 4.5 16.3 4.5 9.7 8.9 6.3 14.7z"
+      />
+      <path
+        fill="#4CAF50"
+        d="M24 43.5c5.2 0 9.9-2 13.4-5.2l-6.2-5.2c-2 1.5-4.6 2.4-7.2 2.4-5.3 0-9.7-3.1-11.3-7.5l-6.5 5C9.6 39 16.2 43.5 24 43.5z"
+      />
+      <path
+        fill="#1976D2"
+        d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.1-4.1 5.6l6.2 5.2C41 35.6 43.5 30.3 43.5 24c0-1.2-.1-2.3-.4-3.5z"
+      />
     </svg>
   );
 }

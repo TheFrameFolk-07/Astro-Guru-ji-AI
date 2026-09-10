@@ -65,7 +65,9 @@ export function analyzeImageFile(file: File): Promise<AnalyzedImage> {
             count++;
           }
         }
-        const symmetry = count ? Math.max(0, 100 - (diff / count / 255) * 260) : 50;
+        const symmetry = count
+          ? Math.max(0, 100 - (diff / count / 255) * 260)
+          : 50;
 
         // Edge density (Sobel-lite) — proxy for palm-line richness
         let edges = 0;
@@ -104,10 +106,30 @@ const band = (v: number, low: string, mid: string, high: string) =>
   v < 38 ? low : v < 68 ? mid : high;
 
 export function faceReading(m: ImageMetrics) {
-  const glow = band(m.brightness, "a subdued, inward Chandra glow", "a balanced Surya-Chandra glow", "a bright Surya-dominant glow");
-  const temper = band(m.warmth, "cool Shukra tones — calm and diplomatic", "even elemental tones — steady temperament", "warm Mangal tones — high drive and courage");
-  const sym = band(m.symmetry, "notable asymmetry — a restless, creative mind", "gentle asymmetry — practical adaptability", "strong facial symmetry — disciplined and fortunate");
-  const def = band(m.contrast, "soft feature definition — a gentle nature", "moderate feature definition — measured decisions", "sharp feature definition — decisive leadership");
+  const glow = band(
+    m.brightness,
+    "a subdued, inward Chandra glow",
+    "a balanced Surya-Chandra glow",
+    "a bright Surya-dominant glow",
+  );
+  const temper = band(
+    m.warmth,
+    "cool Shukra tones — calm and diplomatic",
+    "even elemental tones — steady temperament",
+    "warm Mangal tones — high drive and courage",
+  );
+  const sym = band(
+    m.symmetry,
+    "notable asymmetry — a restless, creative mind",
+    "gentle asymmetry — practical adaptability",
+    "strong facial symmetry — disciplined and fortunate",
+  );
+  const def = band(
+    m.contrast,
+    "soft feature definition — a gentle nature",
+    "moderate feature definition — measured decisions",
+    "sharp feature definition — decisive leadership",
+  );
   return [
     `Facial symmetry measured at ${m.symmetry}% — ${sym}.`,
     `Complexion radiance ${m.brightness}%: ${glow}.`,
@@ -117,10 +139,30 @@ export function faceReading(m: ImageMetrics) {
 }
 
 export function palmReading(m: ImageMetrics) {
-  const lines = band(m.detail, "few, deep lines — a focused single-path life", "a clear, moderate line network — balanced destiny", "a dense line network — many opportunities and travel");
-  const heart = band(m.warmth, "a cool Heart line — loyal but reserved in love", "a balanced Heart line — warmth with discernment", "a strong Heart line — passionate attachments");
-  const head = band(m.contrast, "a smooth Head line — intuitive thinking", "a defined Head line — analytical balance", "a deeply etched Head line — sharp intellect");
-  const life = band(m.brightness, "a shaded Life line — conserve energy, rest well", "a steady Life line — consistent vitality", "a luminous Life line — robust vitality and longevity");
+  const lines = band(
+    m.detail,
+    "few, deep lines — a focused single-path life",
+    "a clear, moderate line network — balanced destiny",
+    "a dense line network — many opportunities and travel",
+  );
+  const heart = band(
+    m.warmth,
+    "a cool Heart line — loyal but reserved in love",
+    "a balanced Heart line — warmth with discernment",
+    "a strong Heart line — passionate attachments",
+  );
+  const head = band(
+    m.contrast,
+    "a smooth Head line — intuitive thinking",
+    "a defined Head line — analytical balance",
+    "a deeply etched Head line — sharp intellect",
+  );
+  const life = band(
+    m.brightness,
+    "a shaded Life line — conserve energy, rest well",
+    "a steady Life line — consistent vitality",
+    "a luminous Life line — robust vitality and longevity",
+  );
   return [
     `Line density scored ${m.detail}% — ${lines}.`,
     `Heart line: ${heart}.`,

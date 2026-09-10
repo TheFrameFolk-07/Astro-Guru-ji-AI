@@ -101,9 +101,21 @@
 
 @utility gradient-cosmic {
   background:
-    radial-gradient(1200px 600px at 50% -10%, rgba(255, 153, 51, 0.18), transparent 60%),
-    radial-gradient(900px 500px at 80% 20%, rgba(212, 175, 55, 0.12), transparent 55%),
-    radial-gradient(700px 500px at 10% 90%, rgba(138, 92, 246, 0.1), transparent 55%),
+    radial-gradient(
+      1200px 600px at 50% -10%,
+      rgba(255, 153, 51, 0.18),
+      transparent 60%
+    ),
+    radial-gradient(
+      900px 500px at 80% 20%,
+      rgba(212, 175, 55, 0.12),
+      transparent 55%
+    ),
+    radial-gradient(
+      700px 500px at 10% 90%,
+      rgba(138, 92, 246, 0.1),
+      transparent 55%
+    ),
     var(--background);
 }
 
@@ -128,19 +140,36 @@
 }
 
 @keyframes float-slow {
-  0%, 100% { transform: translateY(0) rotate(0deg); }
-  50% { transform: translateY(-14px) rotate(8deg); }
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-14px) rotate(8deg);
+  }
 }
 @keyframes spin-slow {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 @keyframes twinkle {
-  0%, 100% { opacity: 0.2; }
-  50% { opacity: 1; }
+  0%,
+  100% {
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 1;
+  }
 }
 @keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 153, 51, 0.45); }
-  50% { box-shadow: 0 0 30px 6px rgba(255, 153, 51, 0.25); }
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 153, 51, 0.45);
+  }
+  50% {
+    box-shadow: 0 0 30px 6px rgba(255, 153, 51, 0.25);
+  }
 }
 
 @utility animate-float-slow {

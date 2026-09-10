@@ -25,7 +25,6 @@ export function CosmicBackground({ dense = false }: { dense?: boolean }) {
     );
   }, [dense]);
 
-
   return (
     <div className="pointer-events-none absolute inset-0 overflow-hidden">
       <div className="absolute inset-0 gradient-cosmic" />
@@ -33,9 +32,31 @@ export function CosmicBackground({ dense = false }: { dense?: boolean }) {
       {/* Rotating zodiac ring */}
       <div className="absolute left-1/2 top-[-30%] h-[140vw] w-[140vw] -translate-x-1/2 animate-spin-slow opacity-[0.13]">
         <svg viewBox="0 0 400 400" className="h-full w-full">
-          <circle cx="200" cy="200" r="180" fill="none" stroke="var(--gold)" strokeWidth="0.6" />
-          <circle cx="200" cy="200" r="140" fill="none" stroke="var(--saffron)" strokeWidth="0.4" strokeDasharray="3 5" />
-          <circle cx="200" cy="200" r="100" fill="none" stroke="var(--gold)" strokeWidth="0.4" />
+          <circle
+            cx="200"
+            cy="200"
+            r="180"
+            fill="none"
+            stroke="var(--gold)"
+            strokeWidth="0.6"
+          />
+          <circle
+            cx="200"
+            cy="200"
+            r="140"
+            fill="none"
+            stroke="var(--saffron)"
+            strokeWidth="0.4"
+            strokeDasharray="3 5"
+          />
+          <circle
+            cx="200"
+            cy="200"
+            r="100"
+            fill="none"
+            stroke="var(--gold)"
+            strokeWidth="0.4"
+          />
           {Array.from({ length: 12 }).map((_, i) => {
             const a = (i / 12) * Math.PI * 2;
             return (
