@@ -15,6 +15,7 @@ import {
 import { CosmicBackground } from "./CosmicBackground";
 import { useAstro, type AstroProfile } from "@/lib/astro-context";
 import { analyzeImageFile, faceReading, palmReading } from "@/lib/image-analysis";
+import { geocodePlace } from "@/lib/geocode";
 
 
 const TOTAL = 6;
@@ -52,18 +53,33 @@ export function Onboarding({
   const next = () => setStep((s) => Math.min(s + 1, TOTAL - 1));
   const back = () => setStep((s) => Math.max(s - 1, 0));
 
-  const submit = () => {
+  const [saving, setSaving] = useState(false);
+
+  const submit = async () => {
+    if (saving) return;
+    setSaving(true);
+    const place = pob.trim();
+    let geo =
+      initial && initial.pob === place && initial.lat != null
+        ? { lat: initial.lat, lon: initial.lon!, tz: initial.tz!, label: initial.placeLabel ?? place }
+        : null;
+    if (!geo) geo = await geocodePlace(place);
     saveProfile({
       name: name.trim(),
       dob,
       tob,
-      pob: pob.trim(),
+      pob: place,
+      lat: geo?.lat ?? null,
+      lon: geo?.lon ?? null,
+      tz: geo?.tz ?? null,
+      placeLabel: geo?.label ?? null,
       facePhoto,
       palmPhoto,
       faceReading: faceText,
       palmReading: palmText,
       createdAt: initial?.createdAt ?? Date.now(),
     } satisfies AstroProfile);
+    setSaving(false);
     onCancel?.();
   };
 
@@ -202,11 +218,21 @@ export function Onboarding({
           </button>
         ) : (
           <button
-            onClick={submit}
-            className="flex h-14 w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-saffron to-gold text-base font-bold text-[#1a1206] shadow-lg transition active:scale-[0.98]"
+            onClick={() => void submit()}
+            disabled={saving}
+            className="flex h-14 w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-saffron to-gold text-base font-bold text-[#1a1206] shadow-lg transition active:scale-[0.98] disabled:opacity-60"
           >
-            <Sparkles className="h-5 w-5" />
-            {submitLabel ?? (onCancel ? "Save & Recompute Charts" : "Submit & Generate Charts")}
+            {saving ? (
+              <>
+                <span className="h-5 w-5 animate-spin rounded-full border-2 border-[#1a1206]/30 border-t-[#1a1206]" />
+                Locating your birth sky…
+              </>
+            ) : (
+              <>
+                <Sparkles className="h-5 w-5" />
+                {submitLabel ?? (onCancel ? "Save & Recompute Charts" : "Submit & Generate Charts")}
+              </>
+            )}
           </button>
         )}
         {step >= 4 && (

@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Send, Sparkles, ScrollText, ChevronDown, Trash2 } from "lucide-react";
 import { useAstro } from "@/lib/astro-context";
-import { firstName, getSign, nakshatra } from "@/lib/astro-utils";
-import { dict, isRtl } from "@/lib/languages";
+import { birthChart, firstName, getSign, nakshatra, signForHouse } from "@/lib/astro-utils";
+import { dict, isRtl, LANGUAGES } from "@/lib/languages";
 import { BirthChart } from "./BirthChart";
 
 interface Msg {
@@ -60,21 +60,104 @@ export function GuruChat() {
     saveChatHistory(fresh);
   };
 
-  const reply = (q: string) => {
-    const r = generateReply(q, { fn, sign, nak, language });
+  const buildContext = () => {
+    if (!profile) return "No birth details available.";
+    const chart = birthChart(profile);
+    const placements = chart.houses
+      .map((h, i) =>
+        h.planets.length
+          ? `House ${i + 1} (${signForHouse(chart.ascIndex, i + 1)}): ${h.planets
+              .map((p) => p.name)
+              .join(", ")}`
+          : null,
+      )
+      .filter(Boolean)
+      .join("\n");
+    return [
+      `Name: ${profile.name}`,
+      `Date of birth: ${profile.dob}`,
+      `Time of birth: ${profile.tob}`,
+      `Place of birth: ${profile.pob}`,
+      `Sun sign: ${sign.name} (element ${sign.element}, ruler ${sign.ruler})`,
+      `Nakshatra: ${nak}`,
+      `Ascendant: ${chart.ascendant}`,
+      "Planetary placements:",
+      placements,
+      profile.faceReading ? `Face reading notes: ${profile.faceReading}` : "",
+      profile.palmReading ? `Palm reading notes: ${profile.palmReading}` : "",
+    ]
+      .filter(Boolean)
+      .join("\n");
+  };
+
+  const askGuru = async (history: Msg[]) => {
     setTyping(true);
-    setTimeout(() => {
+    try {
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          messages: history.map((m) => ({
+            role: m.role === "guru" ? "assistant" : "user",
+            content: m.text,
+          })),
+          context: buildContext(),
+          language:
+            LANGUAGES.find((l) => l.code === language)?.english ?? "English",
+        }),
+      });
+      if (!res.ok || !res.body) throw new Error(`chat failed: ${res.status}`);
+
+      const reader = res.body.getReader();
+      const decoder = new TextDecoder();
+      const msgId = idRef.current++;
+      let text = "";
+      let started = false;
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        text += decoder.decode(value, { stream: true });
+        if (!text.trim()) continue;
+        if (!started) {
+          started = true;
+          setTyping(false);
+          setMessages((m) => [...m, { id: msgId, role: "guru", text }]);
+        } else {
+          setMessages((m) => m.map((x) => (x.id === msgId ? { ...x, text } : x)));
+        }
+      }
+      if (!started) {
+        setTyping(false);
+        setMessages((m) => [
+          ...m,
+          { id: msgId, role: "guru", text: generateReply(history[history.length - 1].text, { fn, sign, nak, language }) },
+        ]);
+      }
+    } catch {
       setTyping(false);
-      setMessages((m) => [...m, { id: idRef.current++, role: "guru", text: r }]);
-    }, 1300);
+      setMessages((m) => [
+        ...m,
+        {
+          id: idRef.current++,
+          role: "guru",
+          text: generateReply(history[history.length - 1]?.text ?? "", {
+            fn,
+            sign,
+            nak,
+            language,
+          }),
+        },
+      ]);
+    }
   };
 
   const sendText = (text: string) => {
     const tx = text.trim();
-    if (!tx) return;
-    setMessages((m) => [...m, { id: idRef.current++, role: "user", text: tx }]);
+    if (!tx || typing) return;
+    const next: Msg[] = [...messages, { id: idRef.current++, role: "user" as const, text: tx }];
+    setMessages(next);
     setInput("");
-    reply(tx);
+    void askGuru(next);
   };
 
   return (

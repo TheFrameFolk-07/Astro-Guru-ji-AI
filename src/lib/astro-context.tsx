@@ -11,6 +11,10 @@ export interface AstroProfile {
   dob: string; // yyyy-mm-dd
   tob: string; // HH:mm
   pob: string;
+  lat?: number | null; // birth place latitude (for real chart math)
+  lon?: number | null;
+  tz?: string | null; // IANA timezone of the birth place
+  placeLabel?: string | null;
   facePhoto: string | null; // data url
   palmPhoto: string | null; // data url
   faceReading?: string | null;
