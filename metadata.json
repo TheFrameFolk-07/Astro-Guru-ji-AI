@@ -1,0 +1,8 @@
+{
+  "name": "AstroAI",
+  "description": "AI-powered Vedic astrology app featuring Guru Ji chatbot consultation, birth chart calculation, Nadi leaf destiny finder, Lal Kitab remedies, Prashna astrology, and personalized astro-wellness.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

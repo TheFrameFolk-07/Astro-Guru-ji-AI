@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Golden Crescent Moon centered within safe zone -->
+    <path
+        android:fillColor="#D4AF37"
+        android:pathData="M56,34 C44.95,34 36,42.95 36,54 C36,65.05 44.95,74 56,74 C60.2,74 64.08,72.7 67.29,70.5 C59.8,69.5 54,63 54,54 C54,45 59.8,38.5 67.29,37.5 C64.08,35.3 60.2,34 56,34 Z" />
+    <!-- Radiance Sun/Star Sparkle in Gold/Saffron -->
+    <path
+        android:fillColor="#FFB347"
+        android:pathData="M66,42 L68,36 L70,42 L76,44 L70,46 L68,52 L66,46 L60,44 Z" />
+    <path
+        android:fillColor="#FFE599"
+        android:pathData="M42,42 L43,39 L44,42 L47,43 L44,44 L43,47 L42,44 L39,43 Z" />
+</vector>
